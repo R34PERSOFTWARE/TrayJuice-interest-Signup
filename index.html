@@ -80,24 +80,33 @@
         }
 
         header {
-            padding: 2rem 0;
+            padding: 1rem 0;
             position: relative;
             z-index: 10;
         }
 
         .nav {
             display: flex;
-            justify-content: flex-end;
+            justify-content: space-between;
             align-items: center;
+        }
+
+        .nav-title {
+            font-size: 2rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ffffff, #60a5fa, #34d399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .beta-badge {
             background: rgba(239, 68, 68, 0.2);
             color: #fca5a5;
-            padding: 0.25rem 0.75rem;
+            padding: 0.75rem 1.5rem;
             border-radius: 9999px;
-            font-size: 0.875rem;
-            font-weight: 600;
+            font-size: 1rem;
+            font-weight: 700;
             border: 1px solid rgba(239, 68, 68, 0.3);
             animation: pulse 2s infinite;
         }
@@ -109,13 +118,13 @@
 
         .hero {
             text-align: center;
-            padding: 4rem 0 6rem;
+            padding: 2rem 0 4rem;
             position: relative;
             z-index: 10;
         }
 
         .hero-title {
-            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-size: clamp(2rem, 4vw, 3rem);
             font-weight: 900;
             margin-bottom: 1.5rem;
             background: linear-gradient(135deg, #ffffff, #60a5fa, #34d399);
@@ -250,17 +259,40 @@
         }
 
         .signup-form {
-            max-width: 500px;
+            max-width: 600px;
             margin: 0 auto;
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-row {
             display: flex;
             gap: 1rem;
-            margin-top: 2rem;
             flex-wrap: wrap;
         }
 
-        .email-input {
+        .form-group {
             flex: 1;
-            min-width: 250px;
+            min-width: 280px;
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+
+        .form-group.full-width {
+            min-width: 100%;
+        }
+
+        .form-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #f1f5f9;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input, .form-select, .form-textarea {
             padding: 1rem 1.25rem;
             border: 2px solid rgba(51, 65, 85, 0.8);
             border-radius: 0.75rem;
@@ -270,18 +302,32 @@
             transition: all 0.3s ease;
         }
 
-        .email-input:focus {
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
             outline: none;
             border-color: #60a5fa;
             box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
         }
 
-        .email-input::placeholder {
+        .form-input::placeholder {
             color: #64748b;
         }
 
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-select {
+            cursor: pointer;
+        }
+
+        .form-select option {
+            background: #1e293b;
+            color: #f1f5f9;
+        }
+
         .cta-button {
-            padding: 1rem 2rem;
+            padding: 1.25rem 2rem;
             background: linear-gradient(135deg, #60a5fa, #34d399);
             border: none;
             border-radius: 0.75rem;
@@ -292,7 +338,7 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
-            min-width: 150px;
+            margin-top: 1rem;
         }
 
         .cta-button:hover {
@@ -357,8 +403,12 @@
         }
 
         @media (max-width: 768px) {
-            .signup-form {
+            .form-row {
                 flex-direction: column;
+            }
+            
+            .form-group {
+                min-width: 100%;
             }
             
             .demo-row {
@@ -398,13 +448,12 @@
     <div class="container">
         <header>
             <nav class="nav">
+                <div class="nav-title">🔋 TrayJuice</div>
                 <div class="beta-badge">INTEREST CHECK</div>
             </nav>
         </header>
 
         <section class="hero">
-            <h1 class="hero-title">🔋 TrayJuice</h1>
-            
             <div class="keyboard-demo">
                 <h2 style="font-size: 1.5rem; font-weight: 700; color: #f1f5f9; margin-bottom: 1rem; text-align: center;">Finally, Battery Level for Your Keychron</h2>
                 <p style="color: #94a3b8; margin-bottom: 2rem; text-align: center;">Real battery readings for Lemokey & Keychron keyboards directly in your Windows taskbar. Help us gauge interest for this purpose-built solution.</p>
@@ -460,18 +509,71 @@
             <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 1rem;">Show Your Interest</h2>
             <p style="color: #94a3b8; margin-bottom: 2rem;">Help us determine if there's enough demand for TrayJuice. If we hit our interest threshold, we'll move forward with a beta release.</p>
             
-            <form class="signup-form" action="https://formspree.io/f/xjkogwqw" method="POST" id="signupForm">
-                <input 
-                    type="email" 
-                    name="email"
-                    class="email-input" 
-                    placeholder="your.email@example.com" 
-                    required
-                    id="emailInput"
-                >
+            <form class="signup-form" action="https://formspree.io/f/mwpqvbek" method="POST" id="signupForm">
+                <div class="form-group full-width">
+                    <label class="form-label" for="email">Email Address</label>
+                    <input 
+                        type="email" 
+                        name="email"
+                        id="email"
+                        class="form-input" 
+                        placeholder="your.email@example.com" 
+                        required
+                    >
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="product">What Product Do You Use?</label>
+                        <select name="product" id="product" class="form-select" required>
+                            <option value="">Select your keyboard</option>
+                            <option value="Lemokey P1 Pro">Lemokey P1 Pro</option>
+                            <option value="Keychron K2">Keychron K2</option>
+                            <option value="Keychron K3">Keychron K3</option>
+                            <option value="Keychron K6 Pro">Keychron K6 Pro</option>
+                            <option value="Keychron K8">Keychron K8</option>
+                            <option value="Keychron K10">Keychron K10</option>
+                            <option value="Keychron K12">Keychron K12</option>
+                            <option value="Other Keychron">Other Keychron Model</option>
+                            <option value="Multiple">Multiple Keyboards</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="os">What OS Do You Use?</label>
+                        <select name="os" id="os" class="form-select" required>
+                            <option value="">Select your OS</option>
+                            <option value="Windows 11">Windows 11</option>
+                            <option value="Windows 10">Windows 10</option>
+                            <option value="Both">Both Windows 10 & 11</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label class="form-label" for="ui_preference">UI Preference</label>
+                    <select name="ui_preference" id="ui_preference" class="form-select" required>
+                        <option value="">Select your preference</option>
+                        <option value="Simple tray app">Simple tray app only</option>
+                        <option value="Mini GUI with settings">Mini GUI/settings panel</option>
+                        <option value="Both options">Both - let me choose</option>
+                    </select>
+                </div>
+
+                <div class="form-group full-width">
+                    <label class="form-label" for="features">What features would be must-have for you?</label>
+                    <textarea 
+                        name="features" 
+                        id="features" 
+                        class="form-textarea" 
+                        placeholder="e.g., Custom notification thresholds, battery history, keyboard shortcuts, auto-sleep detection..."
+                        rows="4"
+                    ></textarea>
+                </div>
+
                 <input type="hidden" name="_subject" value="New TrayJuice Interest Sign-up">
                 <button type="submit" class="cta-button" id="submitButton">
-                    I'm Interested
+                    I'm Interested - Submit
                 </button>
             </form>
             
@@ -536,13 +638,25 @@
             const form = e.target;
             const button = document.getElementById('submitButton');
             const status = document.getElementById('statusMessage');
-            const email = document.getElementById('emailInput').value;
+            const email = document.getElementById('email').value;
             
             // Simple email validation
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             
             if (!emailRegex.test(email)) {
                 status.textContent = 'Please enter a valid email address';
+                status.className = 'status-message status-error';
+                status.style.display = 'block';
+                return;
+            }
+
+            // Check required fields
+            const product = document.getElementById('product').value;
+            const os = document.getElementById('os').value;
+            const ui_preference = document.getElementById('ui_preference').value;
+
+            if (!product || !os || !ui_preference) {
+                status.textContent = 'Please fill in all required fields';
                 status.className = 'status-message status-error';
                 status.style.display = 'block';
                 return;
@@ -576,7 +690,7 @@
                     
                     // Reset button after delay
                     setTimeout(() => {
-                        button.textContent = 'I\'m Interested';
+                        button.textContent = 'I\'m Interested - Submit';
                         button.disabled = false;
                         button.style.background = 'linear-gradient(135deg, #60a5fa, #34d399)';
                         status.style.display = 'none';
