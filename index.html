@@ -695,6 +695,28 @@
             console.error('Failed to load local counter:', error);
         }
 
+        // JSON file counter for cross-user sharing
+        let jsonCounter = 0;
+        async function loadJsonCounter() {
+            try {
+                const response = await fetch('https://raw.githubusercontent.com/R34PERSOFTWARE/TrayJuice-interest-Signup/main/counter.json');
+                const data = await response.json();
+                jsonCounter = data.signups || 0;
+                console.log(`JSON counter loaded: ${jsonCounter}`);
+                return jsonCounter;
+            } catch (error) {
+                console.error('Failed to load JSON counter:', error);
+                return 0;
+            }
+        }
+
+        // Update JSON counter (this would need a server, but we'll keep it for future use)
+        async function updateJsonCounter(newCount) {
+            console.log(`Would update JSON counter to: ${newCount} (requires server implementation)`);
+            // Note: This would require a server to write to the JSON file
+            // For now, we'll just log it for future implementation
+        }
+
         // Update progress bar
         function updateProgress(currentSignups) {
             const progressBar = document.getElementById('progressBar');
@@ -795,12 +817,16 @@
                             if (result && result.value !== undefined && result.value !== null) {
                                 // Update progress bar immediately
                                 updateProgress(result.value);
+                                // Also try to update JSON counter for cross-user sharing
+                                await updateJsonCounter(result.value);
                             } else {
                                 // CounterAPI returned undefined, use local fallback
                                 localCounter++;
                                 localStorage.setItem('trayjuice-signups', localCounter.toString());
                                 console.log(`CounterAPI returned undefined, using local fallback. New count: ${localCounter}`);
                                 updateProgress(localCounter);
+                                // Also try to update JSON counter
+                                await updateJsonCounter(localCounter);
                             }
                         } else {
                             // Use local fallback
@@ -808,6 +834,8 @@
                             localStorage.setItem('trayjuice-signups', localCounter.toString());
                             console.log(`Local counter incremented. New count: ${localCounter}`);
                             updateProgress(localCounter);
+                            // Also try to update JSON counter
+                            await updateJsonCounter(localCounter);
                         }
                     } catch (counterError) {
                         console.error('Failed to increment counter:', counterError.message);
@@ -864,6 +892,14 @@
         // Initialize counter and fetch real signup count
         async function initializeCounter() {
             try {
+                // Try JSON file first (cross-user counter)
+                const jsonCount = await loadJsonCounter();
+                if (jsonCount > 0) {
+                    console.log(`Using JSON counter: ${jsonCount}`);
+                    updateProgress(jsonCount);
+                    return;
+                }
+
                 if (counter) {
                     // Try to get current count using CounterAPI client
                     const result = await counter.get('signups');
