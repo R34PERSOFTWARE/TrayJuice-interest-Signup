@@ -533,7 +533,7 @@
                 <div style="background: rgba(51, 65, 85, 0.8); border-radius: 9999px; height: 28px; overflow: hidden; margin-bottom: 0.5rem;">
                     <div id="progressBar" style="background: linear-gradient(90deg, #00ff00, #34d399); height: 100%; width: 0%; transition: width 0.5s ease;"></div>
                 </div>
-                <div style="font-size: 0.8rem; color: #64748b;">Interest collection: March 2024 • Decision: End of March • Beta release: April 2024 (if we proceed)</div>
+                <div style="font-size: 0.8rem; color: #64748b;">Interest collection: August 2025 • Decision: End of August • Beta release: September 2025 (if we proceed)</div>
             </div>
             
             <form class="signup-form" action="https://formspree.io/f/mwpqvbek" method="POST" id="signup-form">
@@ -601,17 +601,6 @@
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label class="form-label" for="pricing">How much would you pay for this?</label>
-                        <select name="pricing" id="pricing" class="form-select" required>
-                            <option value="">Select pricing preference</option>
-                            <option value="Free">Free</option>
-                            <option value="$5">$5</option>
-                            <option value="$10">$10</option>
-                            <option value="$15+">$15+</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
                         <label class="form-label" for="urgency">How soon do you need this?</label>
                         <select name="urgency" id="urgency" class="form-select" required>
                             <option value="">Select urgency</option>
@@ -620,9 +609,7 @@
                             <option value="No rush">No rush</option>
                         </select>
                     </div>
-                </div>
 
-                <div class="form-row">
                     <div class="form-group">
                         <label class="form-label" for="beta_testing">Would you beta test?</label>
                         <select name="beta_testing" id="beta_testing" class="form-select" required>
@@ -630,16 +617,6 @@
                             <option value="Yes">Yes, absolutely</option>
                             <option value="Maybe">Maybe</option>
                             <option value="No">No, wait for stable release</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label" for="keyboard_count">How many keyboards do you own?</label>
-                        <select name="keyboard_count" id="keyboard_count" class="form-select" required>
-                            <option value="">Select count</option>
-                            <option value="1">1</option>
-                            <option value="2-3">2-3</option>
-                            <option value="4+">4+</option>
                         </select>
                     </div>
                 </div>
@@ -655,18 +632,12 @@
                     ></textarea>
                 </div>
 
+
+
                 <input type="hidden" name="_subject" value="New TrayJuice Interest Sign-up">
-                <!-- 
                 <button type="submit" class="cta-button" id="submitButton">
                     I'm Interested - Submit
                 </button>
-                -->
-                <button type="button" style="padding: 1.25rem 2rem; background: #64748b; border: none; border-radius: 0.75rem; color: #94a3b8; font-weight: 700; font-size: 1rem; cursor: not-allowed; opacity: 0.6; margin-top: 1rem;" disabled>
-                    OUT OF ORDER
-                </button>
-                <div style="text-align: center; margin-top: calc(1rem - 35px); font-size: 0.9rem; color: white;">
-                    Sign up button will become active on [Date Coming Soon]
-                </div>
             </form>
             
             <div class="status-message" id="statusMessage"></div>
@@ -762,12 +733,10 @@
             const product = document.getElementById('product').value;
             const os = document.getElementById('os').value;
             const ui_preference = document.getElementById('ui_preference').value;
-            const pricing = document.getElementById('pricing').value;
             const urgency = document.getElementById('urgency').value;
             const beta_testing = document.getElementById('beta_testing').value;
-            const keyboard_count = document.getElementById('keyboard_count').value;
 
-            if (!name || !product || !os || !ui_preference || !pricing || !urgency || !beta_testing || !keyboard_count) {
+            if (!name || !product || !os || !ui_preference || !urgency || !beta_testing) {
                 status.textContent = 'Please fill in all required fields';
                 status.className = 'status-message status-error';
                 status.style.display = 'block';
