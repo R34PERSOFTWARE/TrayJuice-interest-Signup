@@ -763,6 +763,19 @@
                 urlParams.get('_captcha') ||
                 sessionStorage.getItem('formSubmitted')) {
                 
+                // Set a flag to indicate we've processed the return
+                sessionStorage.setItem('formReturnProcessed', 'true');
+                
+                // Refresh the page to ensure clean state
+                if (!sessionStorage.getItem('pageRefreshed')) {
+                    sessionStorage.setItem('pageRefreshed', 'true');
+                    window.location.reload();
+                    return;
+                }
+                
+                // Clear the refresh flag
+                sessionStorage.removeItem('pageRefreshed');
+                
                 // Reset the button and show success message
                 const button = document.getElementById('submitButton');
                 const status = document.getElementById('statusMessage');
@@ -779,8 +792,9 @@
                     status.style.display = 'block';
                 }
                 
-                // Clear the session storage flag
+                // Clear the session storage flags
                 sessionStorage.removeItem('formSubmitted');
+                sessionStorage.removeItem('formReturnProcessed');
                 
                 // Reset button after delay
                 setTimeout(() => {
