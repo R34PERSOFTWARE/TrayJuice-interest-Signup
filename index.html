@@ -790,8 +790,18 @@
                         if (counter) {
                             const result = await counter.up('signups');
                             console.log(`Counter incremented successfully. New count: ${result.value}`);
-                            // Update progress bar immediately
-                            updateProgress(result.value);
+                            
+                            // Check if CounterAPI returned a valid value
+                            if (result && result.value !== undefined && result.value !== null) {
+                                // Update progress bar immediately
+                                updateProgress(result.value);
+                            } else {
+                                // CounterAPI returned undefined, use local fallback
+                                localCounter++;
+                                localStorage.setItem('trayjuice-signups', localCounter.toString());
+                                console.log(`CounterAPI returned undefined, using local fallback. New count: ${localCounter}`);
+                                updateProgress(localCounter);
+                            }
                         } else {
                             // Use local fallback
                             localCounter++;
@@ -858,10 +868,17 @@
                     // Try to get current count using CounterAPI client
                     const result = await counter.get('signups');
                     console.log(`Current signups: ${result.value}`);
-                    updateProgress(result.value || 0);
                     
-                    // Set up periodic updates
-                    setInterval(fetchRealProgress, 30000); // Update every 30 seconds
+                    // Check if CounterAPI returned a valid value
+                    if (result && result.value !== undefined && result.value !== null) {
+                        updateProgress(result.value);
+                        // Set up periodic updates
+                        setInterval(fetchRealProgress, 30000); // Update every 30 seconds
+                    } else {
+                        // CounterAPI returned undefined/null, use local fallback
+                        console.log('CounterAPI returned undefined, using local fallback');
+                        updateProgress(localCounter);
+                    }
                 } else {
                     // Use local fallback
                     console.log('Using local counter fallback');
@@ -881,7 +898,14 @@
             try {
                 if (counter) {
                     const result = await counter.get('signups');
-                    updateProgress(result.value || 0);
+                    
+                    // Check if CounterAPI returned a valid value
+                    if (result && result.value !== undefined && result.value !== null) {
+                        updateProgress(result.value);
+                    } else {
+                        // CounterAPI returned undefined, use local counter
+                        updateProgress(localCounter);
+                    }
                 } else {
                     // Use local counter for updates
                     updateProgress(localCounter);
