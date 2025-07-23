@@ -536,7 +536,7 @@
                 <div style="font-size: 0.8rem; color: #64748b;">Interest collection: August 2025 • Decision: End of August • Beta release: September 2025 (if we proceed)</div>
             </div>
             
-            <form class="signup-form" action="https://formspree.io/f/mwpqvbek" method="POST" id="signup-form" enctype="multipart/form-data">
+            <form class="signup-form" action="https://formspree.io/f/mwpqvbek" method="POST" id="signup-form">
                 <div class="form-group full-width">
                     <label class="form-label" for="name">Name</label>
                     <input 
@@ -797,10 +797,7 @@
             try {
                 const response = await fetch(form.action, {
                     method: form.method,
-                    body: new FormData(form),
-                    headers: {
-                        'Accept': 'application/json'
-                    }
+                    body: new FormData(form)
                 });
                 
                 console.log('Formspree response status:', response.status);
