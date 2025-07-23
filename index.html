@@ -736,6 +736,9 @@
             button.disabled = true;
             status.style.display = 'none';
             
+            // Set a flag to indicate form was submitted
+            sessionStorage.setItem('formSubmitted', 'true');
+            
             // Let the form submit naturally to Formspree
             // Formspree will handle the redirect/response
         });
@@ -746,7 +749,16 @@
             
             // Check if we're returning from a successful Formspree submission
             const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('_next') || window.location.href.includes('formspree.io')) {
+            const referrer = document.referrer;
+            
+            // Check multiple conditions for successful Formspree submission
+            if (urlParams.get('_next') || 
+                window.location.href.includes('formspree.io') || 
+                referrer.includes('formspree.io') ||
+                urlParams.get('success') ||
+                urlParams.get('_captcha') ||
+                sessionStorage.getItem('formSubmitted')) {
+                
                 // Reset the button and show success message
                 const button = document.getElementById('submitButton');
                 const status = document.getElementById('statusMessage');
@@ -762,6 +774,9 @@
                     status.className = 'status-message status-success';
                     status.style.display = 'block';
                 }
+                
+                // Clear the session storage flag
+                sessionStorage.removeItem('formSubmitted');
                 
                 // Reset button after delay
                 setTimeout(() => {
