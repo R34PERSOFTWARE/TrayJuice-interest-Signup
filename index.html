@@ -524,8 +524,6 @@
         <section class="cta-section">
             <div style="margin-top: -50px;">
                 <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 1rem; text-align: center;">Show Your Interest</h2>
-                <p style="color: #94a3b8; margin-bottom: 0.5rem; text-align: center;">Help us determine if there's enough demand for TrayJuice. If we hit our interest threshold, we'll move forward with a beta release.</p>
-                <p style="color: #94a3b8; margin-bottom: 0.5rem; text-align: center;">We need 50 signups to proceed with beta development</p>
             </div>
             
             <div style="background: rgba(30, 30, 30, 0.8); border: 1px solid rgba(80, 80, 80, 0.8); border-radius: 1rem; padding: 2rem; margin-bottom: 2rem; margin-top: 30px; text-align: center; max-width: 600px; margin-left: auto; margin-right: auto; backdrop-filter: blur(10px); transition: all 0.3s ease; position: relative; overflow: hidden;">
@@ -535,6 +533,7 @@
             </div>
             
             <form class="signup-form" action="https://formspree.io/f/mwpqvbek" method="POST" id="signup-form">
+                <input type="hidden" name="_next" value="https://r34persoftware.github.io/TrayJuice-interest-Signup/">
                 <div class="form-group full-width">
                     <label class="form-label" for="name">Name</label>
                     <input 
@@ -699,9 +698,7 @@
         }
 
         // Enhanced form handling with Formspree
-        document.getElementById('signup-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
+        document.getElementById('signup-form').addEventListener('submit', function(e) {
             const form = e.target;
             const button = document.getElementById('submitButton');
             const status = document.getElementById('statusMessage');
@@ -711,6 +708,7 @@
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             
             if (!emailRegex.test(email)) {
+                e.preventDefault();
                 status.textContent = 'Please enter a valid email address';
                 status.className = 'status-message status-error';
                 status.style.display = 'block';
@@ -726,6 +724,7 @@
             const beta_testing = document.getElementById('beta_testing').value;
 
             if (!name || !product || !os || !ui_preference || !urgency || !beta_testing) {
+                e.preventDefault();
                 status.textContent = 'Please fill in all required fields';
                 status.className = 'status-message status-error';
                 status.style.display = 'block';
@@ -737,51 +736,8 @@
             button.disabled = true;
             status.style.display = 'none';
             
-            try {
-                const response = await fetch(form.action, {
-                    method: form.method,
-                    body: new FormData(form)
-                });
-                
-                console.log('Formspree response status:', response.status);
-                console.log('Formspree response:', response);
-                
-                if (response.ok) {
-                    // Success - Form submitted successfully
-                    
-                    status.textContent = '✅ Thanks! Your interest has been recorded. We\'ll be in touch if we move forward.';
-                    status.className = 'status-message status-success';
-                    status.style.display = 'block';
-                    
-                    button.textContent = 'Interest Recorded!';
-                    button.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)';
-                    
-                    // Reset form
-                    form.reset();
-                    
-                    // Reset button after delay
-                    setTimeout(() => {
-                        button.textContent = 'I\'m Interested - Submit';
-                        button.disabled = false;
-                        button.style.background = 'linear-gradient(135deg, #60a5fa, #34d399)';
-                        status.style.display = 'none';
-                    }, 5000);
-                    
-                } else {
-                    throw new Error('Form submission failed');
-                }
-                
-            } catch (error) {
-                // Error handling
-                status.textContent = 'Something went wrong. Please try again or email us directly.';
-                status.className = 'status-message status-error';
-                status.style.display = 'block';
-                
-                button.textContent = 'Try Again';
-                button.disabled = false;
-                
-                console.error('Form submission error:', error);
-            }
+            // Let the form submit naturally to Formspree
+            // Formspree will handle the redirect/response
         });
 
         // Initialize particles when page loads
