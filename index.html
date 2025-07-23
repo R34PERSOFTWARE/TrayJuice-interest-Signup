@@ -743,6 +743,37 @@
         // Initialize particles when page loads
         document.addEventListener('DOMContentLoaded', function() {
             createParticles();
+            
+            // Check if we're returning from a successful Formspree submission
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('_next') || window.location.href.includes('formspree.io')) {
+                // Reset the button and show success message
+                const button = document.getElementById('submitButton');
+                const status = document.getElementById('statusMessage');
+                
+                if (button) {
+                    button.textContent = 'Interest Recorded!';
+                    button.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)';
+                    button.disabled = false;
+                }
+                
+                if (status) {
+                    status.textContent = '✅ Thanks! Your interest has been recorded. We\'ll be in touch if we move forward.';
+                    status.className = 'status-message status-success';
+                    status.style.display = 'block';
+                }
+                
+                // Reset button after delay
+                setTimeout(() => {
+                    if (button) {
+                        button.textContent = 'I\'m Interested - Submit';
+                        button.style.background = 'linear-gradient(135deg, #60a5fa, #34d399)';
+                    }
+                    if (status) {
+                        status.style.display = 'none';
+                    }
+                }, 5000);
+            }
         });
     </script>
 </body>
